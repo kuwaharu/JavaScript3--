@@ -5,7 +5,7 @@ const addTask = document.getElementById('add_task') //htmlから入力したタ�
 const todoLists = document.getElementById('todo_lists') //htmlからリストの値の取得
 
 // デフォルト値で1を設定
-let id = 1
+let id = 1;
 
 // todoを保存する箱
 const tasks = []
@@ -16,10 +16,14 @@ const addData = () => {
     id: id,
     title: addTask.value,
   })
+  for (let i = 1; i < tasks.length; i++) {
+    tasks[i].id = i
+  }
+
   showTaskList(tasks)
   addTask.value = ''
-  id++
 }
+console.log(tasks)
 
 const createStatusButton = () => {
   const status = document.createElement('td')
@@ -29,11 +33,11 @@ const createStatusButton = () => {
   return status;
 }
 
-const removeTask = (index) => {
+const removeTask = (id) => {
   for (let i = 1; i < tasks.length; i++) {
     tasks[i].id = i;
   }
-  tasks.splice(index,1) // 配列から削除
+  tasks.splice(id,1) // 配列から削除
   showTaskList(tasks);
 }
 
@@ -42,8 +46,8 @@ const removeTask = (index) => {
     const removeButton = document.createElement('button')
     removeButton.innerText = '削除'
     remove.appendChild(removeButton)
-    removeButton.addEventListener('click', (index) => {
-    removeTask(index);
+    removeButton.addEventListener('click', (id) => {
+    removeTask(id);
     });
     return remove;
   };
@@ -52,7 +56,7 @@ const removeTask = (index) => {
 //タグを追加して出力する関数
 const showTaskList = () => {
   todoLists.innerHTML = '';
-  tasks.forEach((task , index) => {
+  tasks.forEach(task => {
     const todoItem = document.createElement('tr')
     const todoId = document.createElement('td')
     const todoTitle = document.createElement('td')
